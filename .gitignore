@@ -1,0 +1,8 @@
+# 비밀값 — 절대 커밋 금지
+.env
+
+# docker inspect 원본 (SECRET_KEY 등 비밀값 포함)
+*.inspect.json
+*.history.txt
+
+.DS_Store

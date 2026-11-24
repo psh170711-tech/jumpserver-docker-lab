@@ -1,0 +1,39 @@
+# PAM Lab — JumpServer(점프 서버) + 접속 대상 서버
+# 맥 Docker Desktop에 구축한 환경을 docker inspect 결과 그대로 옮긴 파일입니다.
+name: pam-lab
+
+services:
+  jumpserver:
+    image: jumpserver/jms_all:v4.10.20
+    container_name: pam-jumpserver
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      BOOTSTRAP_TOKEN: ${BOOTSTRAP_TOKEN}
+    ports:
+      - "127.0.0.1:8080:80"   # 로컬에서만 접속 (http://localhost:8080)
+    volumes:
+      - pam-jsdata:/opt/data            # JumpServer 데이터·세션 녹화
+      - pam-pgdata:/var/lib/postgresql  # 내장 PostgreSQL (감사 로그 포함)
+      - js-download:/opt/download
+      - js-nginx-log:/var/log/nginx
+    networks:
+      - pam-lab-net
+
+  mcx-test:
+    image: ubuntu:24.04
+    container_name: mcx-test
+    command: ["sleep", "infinity"]
+    networks:
+      - pam-lab-net
+
+volumes:
+  pam-jsdata:
+    name: pam-jsdata     # 기존 볼륨을 그대로 재사용
+  pam-pgdata:
+    name: pam-pgdata
+  js-download:
+  js-nginx-log:
+
+networks:
+  pam-lab-net:
+    name: pam-lab-net

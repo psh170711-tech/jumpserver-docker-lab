@@ -1,0 +1,36 @@
+# JumpServer 구동 검증 — 2026-11-24 16:37:16 KST
+
+## Docker 버전
+Client 28.5.2 / Server 28.5.2
+
+## 컨테이너 상태
+NAMES            IMAGE                         STATUS          PORTS
+pam-jumpserver   jumpserver/jms_all:v4.10.20   Up 39 seconds   127.0.0.1:8080->80/tcp
+
+## 이미지
+REPOSITORY           TAG        IMAGE ID       CREATED       SIZE
+jumpserver/jms_all   v4.10.20   224f297acfd7   2 weeks ago   3.57GB
+
+## 웹 콘솔 응답 (127.0.0.1:8080)
+HTTP/1.1 200 OK
+
+## 컨테이너 내부 서비스
+COMMAND
+celery
+cron
+entrypoint.sh
+guacd
+gunicorn
+java
+koko
+lion
+nginx
+postgres
+ps
+python3
+redis-server
+sh
+sort
+supervisor
+supervisord
+wisp

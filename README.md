@@ -32,6 +32,28 @@ docker compose up -d
 
 브라우저에서 http://localhost:8080 접속.
 
+## 구축 검증 (2026-11-24)
+
+맥 Docker Desktop에서 실제로 기동하여 확인한 결과입니다. 전체 기록: [`docs/verify.txt`](docs/verify.txt)
+
+| 항목 | 결과 |
+|---|---|
+| Docker | Client 28.5.2 / Server 28.5.2 |
+| 컨테이너 | `pam-jumpserver` — `jumpserver/jms_all:v4.10.20`, **Up** |
+| 포트 매핑 | `127.0.0.1:8080 -> 80/tcp` (로컬 전용 바인딩) |
+| 웹 콘솔 | `curl -sI http://127.0.0.1:8080` → **HTTP/1.1 200 OK** |
+
+컨테이너 내부에서 확인한 구성 요소:
+
+| 프로세스 | 역할 |
+|---|---|
+| `nginx` | 웹 콘솔 리버스 프록시 |
+| `gunicorn`, `celery` | Core API(Django) 및 비동기 작업 |
+| `postgres`, `redis-server` | 내장 DB / 캐시·세션 |
+| `koko` | SSH·웹 터미널 접속 게이트웨이 |
+| `lion`, `guacd` | RDP·VNC 원격 데스크톱 게이트웨이 |
+| `supervisord` | 컨테이너 내부 프로세스 관리 |
+
 ## 실습 내용
 
 - [ ] 사용자·자산(mcx-test)·계정 등록 및 권한 부여
